@@ -118,7 +118,8 @@ class SiteController {
       if (req.body.auth === req.session.registered) {
         req.session.userRegistered.password = md5(req.session.userRegistered.password)
         new User(req.session.userRegistered).save()
-        res.redirect("/login");
+        .then(() => res.redirect("/login"))
+        
         return;
       } else {
         return res.send(`<h2>Ma xac thuc da duoc gui toi  <u>${req.session.userRegistered.email}</u> </h2>

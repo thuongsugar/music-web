@@ -8,7 +8,7 @@ const cookieParser = require('cookie-parser');
 const session = require("express-session");
 const MongoDBStore = require('connect-mongodb-session')(session);
 
-const morgan = require('morgan');
+// const morgan = require('morgan');
 const app = express();
 const SortMiddleWare = require('./app/middleware/SortMiddleWare');
 
@@ -21,7 +21,8 @@ const db = require('./config/db');
 db.connect();
 
 const store = new MongoDBStore({
-  uri: "mongodb://localhost:27017/test_dev",
+  // uri: "mongodb://localhost:27017/test_dev",
+  uri: "mongodb+srv://music-web:thuong123@cluster0.k5uq3.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
   collection: "mySession",
 })
 app.use(express.static(path.join(__dirname, 'public')))
@@ -47,7 +48,7 @@ app.use(methodOverride('_method'));
 app.use(SortMiddleWare);
 
 //http logger
-app.use(morgan('combined'))
+// app.use(morgan('combined'))
 
 //template engine
 app.engine('hbs', handlebars({
