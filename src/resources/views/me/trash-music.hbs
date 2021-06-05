@@ -1,0 +1,97 @@
+<div class="mt-4">
+  <div class="d-flex justify-content-between">
+    <h3>Bài Hát Đã Xóa <i class="fas fa-heart text-dark"></i></h3>
+    <a href="/me/stored/music"><i class="fas fa-stream"></i> Bài Hát Của Tôi</a>
+  </div>
+  <div class="mt-4">
+    <table class="table">
+      <thead class="thead-color">
+        <tr>
+          <th scope="col">#</th>
+          <th width=300px scope="col">Tên Bài Hát</th>
+          <th scope="col">Mô Tả</th>
+          <th scope="col" colspan=2>Thời Gian Xóa</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each song}}
+        <tr>
+          <th scope="row">{{sum @index 1}}</th>
+          <td>{{this.name}}</td>
+          <td>{{this.description}}</td>
+          <td>{{this.deletedAt}}</td>
+          <td width=135px>
+            <a class="btn btn-link btn-restore" href="" data-id="{{this._id}}">Khôi Phục</a>
+            <a class="btn btn-link" href="" data-toggle="modal" data-target="#delete-music-modal"
+              data-id="{{this._id}}">Xóa Vĩnh Viễn</a>
+          </td>
+        </tr>
+
+        {{else}}
+        <tr>
+          <td colspan="5" class="text-center">Bạn Chưa Xóa Bài Hát Nào <3 </td>
+        </tr>
+        {{/each}}
+    </table>
+  </div>
+</div>
+{{!-- confirm delete-music music --}}
+<div id="delete-music-modal" class="modal hide fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Chắc chắn xóa vĩnh viễn bài hát này?</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Thao tác này sẽ xóa vĩnh viễn bài hát.</p>
+      </div>
+      <div class="modal-footer">
+        <button id="btn-delete-music" type="button" class="btn btn-danger">Đồng ý</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy bỏ</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+{{!-- Delete hidden form --}}
+<form name="delete-music-form" method="POST"></form>
+{{!-- Patch restore --}}
+<form name="restore-music-form" method="POST"></form>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    var idMusic;
+    var deleteForm = document.forms["delete-music-form"];
+    var restoreForm = document.forms["restore-music-form"];
+    var btnDeleteMusic = document.getElementById('btn-delete-music')
+    var restoreBtn = document.getElementsByClassName('btn-restore');
+
+
+    $('#delete-music-modal').on('show.bs.modal', function (event) {
+      var button = $(event.relatedTarget) // Button that triggered the modal
+      idMusic = button.data('id') // Extract info from data-* attributes
+    });
+
+    btnDeleteMusic.onclick = function () {
+      deleteForm.action = '/music/' + idMusic + '/hard?_method=DELETE';
+      deleteForm.submit();
+    }
+
+    //add event
+    for (var i = 0; i < restoreBtn.length; i++) {
+      restoreBtn[i].onclick = function (e) {
+        e.preventDefault();
+        var musicId = $(this).data('id');
+
+        restoreForm.action = '/music/' + musicId +'/restore?_method=PATCH';
+        restoreForm.submit();
+
+      }
+    }
+
+  })
+
+</script>

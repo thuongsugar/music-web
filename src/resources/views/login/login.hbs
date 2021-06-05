@@ -1,0 +1,19 @@
+<div class="d-flex justify-content-center mt-4 pt-4 pb-4" >
+  <form method="POST" class="w-50">
+    <div class="form-group">
+      <label for="exampleInputEmail1">Email address</label>
+      <input type="text" class="form-control" name="username" value="{{email}}" placeholder="Enter email">
+      {{#if errE}}
+      <p class="text-danger">{{errE}}</p>
+      {{/if}}
+    </div>
+    <div class="form-group">
+      <label for="exampleInputPassword1">Password</label>
+      <input type="password" class="form-control" name="password" placeholder="Password">
+      {{#if errPS}}
+      <p class="text-danger">{{errPS}}</p>
+      {{/if}}
+    </div>
+    <button type="submit" class="btn btn-primary">Login</button>
+  </form>
+</div>

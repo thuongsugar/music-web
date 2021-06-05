@@ -1,0 +1,39 @@
+<div class="mt-4 mb-4">
+  <div class="row">
+
+    {{#each song}}
+      <div class="col-sm6 col-lg-4">
+        <div class="card card-item">
+          <a class="card-img-hidden" href="/music/{{this.slug}}">
+            <img
+              class="card-img-top card-img-home"
+              src="{{this.image}}"
+              alt="Card image cap"
+            />
+          </a>
+          <div class="card-body">
+            <a href="/music/{{this.slug}}">
+              <h5 class="card-title">{{this.name}}</h5>
+            </a>
+            <p class="card-text">{{this.description}}</p>
+            <a href="/music/{{this.slug}}" class="btn btn-primary">Go View</a>
+          </div>
+        </div>
+      </div>
+    {{/each}}
+  </div>
+</div>
+<div class="pt-4 pb-4 d-flex justify-content-center">
+  <nav aria-label="Page navigation example">
+    <ul class="pagination">
+        {{#printPageNumber numberPages numberPagesCurrent}}
+
+        {{/printPageNumber}}
+      {{!-- <li class="page-item"><a class="page-link" onclick="previous()" href="#">Previous</a></li>
+      {{#printPageNumber numberPages}}
+      <li class="page-item"><a class="page-link" href="?page={{this}}">{{this}}</a></li>
+      {{/printPageNumber}}
+      <li class="page-item"><a class="page-link" href="#">Next</a></li> --}}
+    </ul>
+  </nav>
+</div>

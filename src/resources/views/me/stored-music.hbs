@@ -1,0 +1,153 @@
+<form class="mt-4" name="container-form" method="POST" action="/music/handle-form-action">
+  <div class="d-flex justify-content-between">
+    <h3>Bài Hát Của Tôi <i class="fas fa-heart text-danger"></i></h3>
+
+    <a href="/me/trash/music"><i class="fas fa-trash"></i> Bài hát đã xóa ({{deletedCount}})</a>
+
+  </div>
+  <div class="mt-4 d-flex align-items-center">
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox" value="" id="form-checkAll">
+      <label class="form-check-label" for="form-checkAll">
+        Chọn tất cả
+      </label>
+    </div>
+    <select class="form-control form-control-sm checkbox-select" name="action" required>
+      <option value="">--Hành Động--</option>
+      <option value="delete">Xóa</option>
+
+    </select>
+    <button class="btn btn-primary" disabled="disabled" id="submit-form-btn">Thực hiện</button>
+  </div>
+  <div class="mt-4">
+
+
+    <table class="table">
+      <thead class="thead-color">
+        <tr>
+          <th scope="col" colspan="2">#</th>
+          <th width=300px scope="col">
+            Tên Bài Hát
+            {{{sortable 'name' _sort}}}
+            </th>
+          <th scope="col">Mô Tả</th>
+          <th scope="col" colspan=2>
+            Thời Gian Đăng
+            {{{sortable 'createdAt' _sort}}}
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each song}}
+        <tr>
+          <th>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" name="musicIds[]" value="{{this._id}}">
+            </div>
+          </th>
+          <th scope="row">{{sum @index 1}}</th>
+          <td>{{this.name}}</td>
+          <td>{{this.description}}</td>
+          <td>{{this.createdAt}}</td>
+          <td width=135px>
+            <a class="btn btn-link" href="/music/{{this._id}}/edit">Sửa</a>
+            <a class="btn btn-link" href="" data-toggle="modal" data-target="#delete-music-modal"
+              data-id="{{this._id}}">Xóa</a>
+          </td>
+        </tr>
+
+        {{else}}
+        <tr>
+          <td colspan="5" class="text-center">Bạn Chưa Đăng Bài Hát Nào.
+            <a href="/music/create">Đăng Bài Hát</a>
+          </td>
+        </tr>
+        {{/each}}
+    </table>
+  </div>
+</form>
+{{!-- confirm delete-music music --}}
+<div id="delete-music-modal" class="modal hide fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Chắc chắn xóa bài này?</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Đồng ý để xóa bài hát này.</p>
+      </div>
+      <div class="modal-footer">
+        <button id="btn-delete-music" type="button" class="btn btn-danger">Đồng ý</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy bỏ</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+{{!-- hidden the delete form --}}
+<form name="delete-music-form" method="POST"></form>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    var idMusic;
+    var deleteForm = document.forms["delete-music-form"];
+    var containerForm = $('form[name="container-form"]');
+    var btnDeleteMusic = document.getElementById('btn-delete-music');
+    var formInputCheckAll = $('#form-checkAll');
+    // var musicItemCheckbox1 = document.querySelectorAll('input[name="musicIds[]"]');
+    var musicItemCheckbox = $('input[name="musicIds[]"]'); //using jQuery
+    var submitFormBtn = $('#submit-form-btn');
+
+
+
+
+    $('#delete-music-modal').on('show.bs.modal', function (event) {
+      var button = $(event.relatedTarget) // Button that triggered the modal
+      idMusic = button.data('id') // Extract info from data-* attributes
+    });
+
+    btnDeleteMusic.onclick = function () {
+      deleteForm.action = '/music/' + idMusic + '?_method=DELETE';
+      deleteForm.submit();
+    }
+
+    //checkBox All
+    formInputCheckAll.change(function () {
+      var isCheckboxAll = this.checked;
+      musicItemCheckbox.prop('checked', isCheckboxAll);
+      checkEnableButton();
+    })
+
+    //music item checkbox change
+    musicItemCheckbox.change(function () {
+      var isCheckboxAll = musicItemCheckbox.length === $('input[name="musicIds[]"]:checked').length;
+      formInputCheckAll.prop('checked', isCheckboxAll);
+      checkEnableButton();
+
+    })
+    //check all submitbutton clicked
+    /*submitFormBtn.on('submit', function (e) {
+      var isSubmittable = (this).hasClass('disabled');
+      if (isSubmittable) {
+        e.preventDefault();
+      }
+    })
+    */
+
+
+    //kiem tra button enable
+    function checkEnableButton() {
+      var checkedCount = $('input[name="musicIds[]"]:checked').length;
+      if (checkedCount > 0) {
+        submitFormBtn.attr('disabled', false);
+      } else {
+        submitFormBtn.attr('disabled', true);
+      }
+    }
+
+  })
+
+</script>

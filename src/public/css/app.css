@@ -1,0 +1,97 @@
+body {
+  background-color: #ffffff;
+  transition: 0.6s; }
+
+::selection {
+  background: #131313b2;
+  color: #fff; }
+
+.header-color {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #4d2727;
+  transition: 0.6s;
+  z-index: 1; }
+
+.container {
+  background-color: #f300553d;
+  padding-top: 100px; }
+
+.logo-text {
+  font-size: 23px;
+  letter-spacing: 1.5px;
+  line-height: 74px;
+  display: flex;
+  position: relative;
+  z-index: 1; }
+
+.logo-text::before {
+  content: "";
+  position: absolute;
+  clip-path: polygon(50% 0%, 83% 12%, 100% 43%, 94% 78%, 68% 100%, 32% 100%, 6% 78%, 0% 43%, 17% 12%);
+  width: 100%;
+  height: 100%;
+  background-color: #0e436ba4;
+  z-index: -1;
+  transform-origin: center;
+  transform: rotate(0);
+  animation: rotate 0.5s linear infinite;
+  display: none; }
+
+@keyframes rotate {
+  from {
+    background-color: rgba(212, 74, 166, 0.753); }
+  to {
+    background-color: rgba(9, 243, 1, 0.1);
+    transform: rotate(180deg); } }
+
+.logo-text:hover::before {
+  display: block; }
+
+.logo-text b {
+  color: #d44aa6;
+  font-size: 30px; }
+
+.logo-text i {
+  transition: 3s; }
+
+.logo-text i:hover {
+  color: #d44aa6;
+  text-shadow: 0 20px 5px rgba(255, 255, 255, 0.5);
+  transition: 1s linear; }
+
+.card-item {
+  margin-top: 15px; }
+
+.card-img-hidden {
+  overflow: hidden; }
+
+.card-img-home {
+  transform: scale(1);
+  transition: .6s ease; }
+
+.card-img-home:hover {
+  transform: scale(1.2);
+  transition: .4s ease; }
+
+.header-link {
+  color: #fff; }
+
+.checkbox-select {
+  width: 136px;
+  margin: 0 8px; }
+
+nav.sticky {
+  padding: 0rem 1rem;
+  background-color: rgba(0, 0, 0, 0.767);
+  transition: 0.6s; }
+
+.body-change {
+  background-color: rgba(0, 0, 0, 0.7);
+  transition: 0.9s; }
+
+.active-nav-item {
+  border-bottom: 1px solid #999;
+  color: #d44aa6; }
