@@ -144,7 +144,7 @@ class SiteController {
       service: "gmail",
       auth: {
         user: emailPage,
-        pass: "23012001",
+        pass: "thuong@23012001",
       },
     });
 
