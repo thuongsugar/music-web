@@ -1,5 +1,6 @@
 const express = require('express');
 const path = require('path');
+require('dotenv').config()
 const handlebars = require('express-handlebars');
 const methodOverride = require('method-override');
 const port = 3100;
@@ -22,7 +23,7 @@ db.connect();
 
 const store = new MongoDBStore({
   // uri: "mongodb://localhost:27017/test_dev",
-  uri: "mongodb+srv://music-web:thuong123@cluster0.k5uq3.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+  uri: process.env.URI_MONGODB,
   collection: "mySession",
 })
 app.use(express.static(path.join(__dirname, 'public')))

@@ -1,3 +1,4 @@
+require('dotenv').config()
 const { renderSync, info } = require("node-sass");
 const Song = require("../models/Song");
 const User = require("../models/User");
@@ -138,13 +139,14 @@ class SiteController {
     //creat code
     codeAuth = Math.floor(Math.random() * 10000) + 1; //random integer from 1 to 10000;
     console.log(codeAuth);
-    const emailPage = "phamxuanthuong95@gmail.com";
+    const emailPage = process.env.EMAIL_NAME;
+    const passPage = process.env.PASSWORD;
     const mailUser = req.body.email;
     const transporter = nodeMailer.createTransport({
       service: "gmail",
       auth: {
         user: emailPage,
-        pass: "thuong@23012001",
+        pass: passPage,
       },
     });
 
